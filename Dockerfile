@@ -1,5 +1,5 @@
 # Use the official Debian base image
-FROM debian:bullseye
+FROM debian:bullseye as builder
 # Set noninteractive mode for Debian package installations
 ENV DEBIAN_FRONTEND=noninteractive
 # Set the working directory
@@ -24,3 +24,6 @@ RUN make install
 # Set the default command to run tmux
 
 CMD ["/bin/bash"]
+
+FROM scratch AS binaries
+COPY --from=builder /tmux/tmux /
